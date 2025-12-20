@@ -1,1 +1,30 @@
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio cache/options
+.vs/
+
+# Rider
+.idea/
+
+# appsettings com dados sensíveis
 appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.json
+
+# Manter apenas o template
+!appsettings.Template.json
