@@ -1,0 +1,6 @@
+@AlugaSe.WebAPI_HostAddress = http://localhost:5041
+
+GET {{AlugaSe.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
