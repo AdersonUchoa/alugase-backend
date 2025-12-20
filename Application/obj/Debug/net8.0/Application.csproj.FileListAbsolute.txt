@@ -15,3 +15,4 @@ C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\Applicatio
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\Application\bin\Debug\net8.0\Domain.dll
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\Application\bin\Debug\net8.0\Domain.pdb
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\Application\obj\Debug\net8.0\Applicat.44B5EDA2.Up2Date
+C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\Application\obj\Debug\net8.0\Application.sourcelink.json

@@ -10,27 +10,12 @@ namespace AlugaSe.WebAPI.IoC
     {
         public static void AddWebApi(this IServiceCollection services, IConfiguration configuration)
         {
-            //AddApiVersioning(services);
             AddAuthentication(services, configuration);
             AddAuthorization(services);
             AddSwagger(services);
             AddCors(services);
             AddControllers(services);
         }
-
-        //private static void AddApiVersioning(IServiceCollection services)
-        //{
-        //    services.AddApiVersioning(options =>
-        //    {
-        //        options.AssumeDefaultVersionWhenUnspecified = true;
-        //        options.DefaultApiVersion = new ApiVersion(1, 0);
-        //        options.ReportApiVersions = true;
-        //    }).AddApiExplorer(options =>
-        //    {
-        //        options.GroupNameFormat = "'v'VVV";
-        //        options.SubstituteApiVersionInUrl = true;
-        //    });
-        //}
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)
         {
@@ -82,7 +67,6 @@ namespace AlugaSe.WebAPI.IoC
                     }
                 });
 
-                // Configuração JWT no Swagger
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -116,9 +100,14 @@ namespace AlugaSe.WebAPI.IoC
             {
                 options.AddPolicy("AlugaSeCors", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins(
+                               "http://localhost:5173",  // Frontend
+                               "http://localhost:5174",  // Caso a porta mude
+                               "http://localhost:4173"   // Vite preview
+                           )
                            .AllowAnyMethod()
-                           .AllowAnyHeader();
+                           .AllowAnyHeader()
+                           .AllowCredentials();
                 });
             });
         }

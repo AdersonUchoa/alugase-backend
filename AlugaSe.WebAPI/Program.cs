@@ -21,6 +21,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AlugaSeCors");
+
 app.UseAuthentication();
 app.UseAuthorization();
 

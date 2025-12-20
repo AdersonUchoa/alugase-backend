@@ -4,9 +4,12 @@ using Application.Requests.Aluguel;
 using Application.Responses;
 using Application.Responses.Administrador;
 using Application.Responses.Aluguel;
+using Application.Responses.Imovel;
+using Application.Responses.Inquilino;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Extensions;
 using Domain.Interfaces.Repositories;
 using System.Net;
 
@@ -132,7 +135,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<ApiResponse<PaginatedResult<AluguelResponse>>> GetAsync(int page, int limit, bool includeInactive = false, bool includeImoveis = false, bool includeInquilinos = false, string? search = null)
+        public async Task<ApiResponse<PaginatedResult<AluguelResponse>>> GetAsync(int page, int limit, bool includeInactive = false, bool includeImoveis = true, bool includeInquilinos = true, string? search = null)
         {
             try
             {
@@ -145,9 +148,33 @@ namespace Application.Services
 
                 var paginatedAlugueis = await PaginatedResult<Aluguel>.CreateAsync(query, page, limit);
 
-                var dtos = _mapper.Map<List<AluguelResponse>>(paginatedAlugueis.Items);
+                //var dtos = _mapper.Map<List<AluguelResponse>>(paginatedAlugueis.Items);
 
-                var result = new PaginatedResult<AluguelResponse>(dtos, paginatedAlugueis.TotalCount, paginatedAlugueis.PageIndex, paginatedAlugueis.PageSize);
+                var alugueisDto = paginatedAlugueis.Items.Select(a => new AluguelResponse
+                {
+                    Id = a.Id,
+                    DataInicio = a.DataInicio,
+                    DataFim = a.DataFim,
+                    Valor = a.Valor,
+                    MetodoDePagamento = a.MetodoDePagamento.Value(),
+                    Status = a.Status.Value(),
+                    InquilinoId = a.InquilinoId,
+                    ImovelId = a.ImovelId,
+                    Inquilino = a.Inquilino != null ? new InquilinoResumoResponse
+                    {
+                        Id = a.Inquilino.Id,
+                        Nome = a.Inquilino.Nome
+                    }
+                    : null,
+                    Imovel = a.Imovel != null ? new ImovelResumoResponse
+                    {
+                        Id = a.Imovel.Id,
+                        Nome = a.Imovel.Nome
+                    }
+                    : null
+                }).ToList();
+
+                var result = new PaginatedResult<AluguelResponse>(alugueisDto, paginatedAlugueis.TotalCount, paginatedAlugueis.PageIndex, paginatedAlugueis.PageSize);
 
                 return new ApiResponse<PaginatedResult<AluguelResponse>>(true, HttpStatusCode.OK, result, "Inquilinos obtidos com sucesso.", paginatedAlugueis.TotalPages, null);
             }

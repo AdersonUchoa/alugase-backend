@@ -162,3 +162,4 @@ C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\AlugaSe.We
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\AlugaSe.WebAPI\bin\Debug\net8.0\Domain.pdb
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\AlugaSe.WebAPI\bin\Debug\net8.0\Infrastructure.pdb
 C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\AlugaSe.WebAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\iamuc\OneDrive\Área de Trabalho\TCC\Desenvolvimento\backend\AlugaSe.WebAPI\obj\Debug\net8.0\AlugaSe.WebAPI.sourcelink.json
