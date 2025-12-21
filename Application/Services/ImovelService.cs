@@ -238,7 +238,7 @@ namespace Application.Services
             int page,
             int limit,
             bool includeInactive = false,
-            bool includeAlugueis = false,
+            bool includeAlugueis = true,
             string? search = null)
         {
             try

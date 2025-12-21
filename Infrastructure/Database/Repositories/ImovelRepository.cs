@@ -56,13 +56,14 @@ namespace Infrastructure.Database.Repositories
             if (includeAlugueis)
                 query = query.Include(i => i.Aluguels);
 
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrWhiteSpace(search))
             {
                 var searchLower = search.ToLower();
                 query = query.Where(i =>
-                    i.Nome.Contains(searchLower, StringComparison.CurrentCultureIgnoreCase) ||
-                    i.Endereco != null && i.Endereco.ToLower().Contains(searchLower) ||
-                    i.Descricao != null && i.Descricao.ToLower().Contains(searchLower));
+                    (i.Nome != null && i.Nome.ToLower().Contains(searchLower)) ||
+                    (i.Endereco != null && i.Endereco.ToLower().Contains(searchLower)) ||
+                    (i.Descricao != null && i.Descricao.ToLower().Contains(searchLower))
+                );
             }
 
             return query.OrderByDescending(i => i.CreatedAt);

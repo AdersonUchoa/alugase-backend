@@ -148,8 +148,6 @@ namespace Application.Services
 
                 var paginatedAlugueis = await PaginatedResult<Aluguel>.CreateAsync(query, page, limit);
 
-                //var dtos = _mapper.Map<List<AluguelResponse>>(paginatedAlugueis.Items);
-
                 var alugueisDto = paginatedAlugueis.Items.Select(a => new AluguelResponse
                 {
                     Id = a.Id,
