@@ -11,6 +11,7 @@ namespace Application.Responses.Aluguel
         public decimal Valor { get; set; }
         public required string MetodoDePagamento { get; set; }
         public required string Status { get; set; }
+        public string StatusDescricao { get; set; } = string.Empty;
         public int InquilinoId { get; set; }
         public int ImovelId { get; set; }
 

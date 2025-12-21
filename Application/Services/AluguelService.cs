@@ -155,7 +155,8 @@ namespace Application.Services
                     DataFim = a.DataFim,
                     Valor = a.Valor,
                     MetodoDePagamento = a.MetodoDePagamento.Value(),
-                    Status = a.Status.Value(),
+                    Status = a.Status.ToString(),
+                    StatusDescricao = a.Status.Value(),
                     InquilinoId = a.InquilinoId,
                     ImovelId = a.ImovelId,
                     Inquilino = a.Inquilino != null ? new InquilinoResumoResponse
