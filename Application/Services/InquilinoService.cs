@@ -2,7 +2,6 @@
 using Application.Pagination;
 using Application.Requests.Inquilino;
 using Application.Responses;
-using Application.Responses.Aluguel;
 using Application.Responses.Inquilino;
 using AutoMapper;
 using Domain.Entities;
@@ -119,7 +118,7 @@ namespace Application.Services
                 inquilino.UpdatedAt = DateTime.Now;
 
                 var updated = await _inquilinoRepository.UpdateAsync(inquilino);
-                var response = _mapper.Map<InquilinoResponse>(updated);
+                var response = _mapper.Map<InquilinoUpdateResponse>(updated);
 
                 return new ApiResponse<InquilinoResponse>(true, HttpStatusCode.OK, response, "Inquilino atualizado com sucesso.", null, null);
             }

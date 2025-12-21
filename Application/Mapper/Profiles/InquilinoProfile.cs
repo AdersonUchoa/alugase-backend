@@ -25,6 +25,8 @@ namespace Application.Mapper.Profiles
                 .ForMember(dest => dest.Aluguels, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<Inquilino, InquilinoUpdateResponse>();
+
             CreateMap<Inquilino, InquilinoResponse>()
                 .ForMember(dest => dest.TotalAlugueis, opt => opt.MapFrom(src =>
                     (src.Aluguels ?? new List<Aluguel>()).Count))

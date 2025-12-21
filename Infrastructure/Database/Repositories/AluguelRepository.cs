@@ -68,10 +68,7 @@ namespace Infrastructure.Database.Repositories
 
                 query = query.Where(a =>
                     (a.Inquilino != null && a.Inquilino.Nome.ToLower().Contains(searchLower)) ||
-                    (a.Inquilino != null && a.Inquilino.Cpf != null && a.Inquilino.Cpf.Contains(search)) ||
-                    (a.Inquilino != null && a.Inquilino.Telefone != null && a.Inquilino.Telefone.Contains(search)) ||
-                    (a.Imovel != null && a.Imovel.Endereco != null && a.Imovel.Endereco.ToLower().Contains(searchLower)) ||
-                    (a.Imovel != null && a.Imovel.Descricao != null && a.Imovel.Descricao.ToLower().Contains(searchLower))
+                    (a.Imovel != null && a.Imovel.Nome != null && a.Imovel.Nome.ToLower().Contains(searchLower)) //TODO: Lembrar de adicionar valor nesse search
                 );
             }
 
