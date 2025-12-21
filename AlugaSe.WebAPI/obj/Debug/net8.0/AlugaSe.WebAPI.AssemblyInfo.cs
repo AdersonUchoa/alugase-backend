@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlugaSe.WebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd5fce4c20e02fdc4ad3bbe5016e04a724bb574b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b16d9e5dd03acb327262fa24fa18ca31b27f5f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlugaSe.WebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlugaSe.WebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

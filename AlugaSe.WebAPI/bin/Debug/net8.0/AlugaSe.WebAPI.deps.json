@@ -1112,6 +1112,7 @@
       },
       "Infrastructure/1.0.0": {
         "dependencies": {
+          "Application": "1.0.0",
           "AutoMapper": "12.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "Domain": "1.0.0",
