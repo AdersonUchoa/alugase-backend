@@ -159,13 +159,13 @@ namespace Application.Services
                     StatusDescricao = a.Status.Value(),
                     InquilinoId = a.InquilinoId,
                     ImovelId = a.ImovelId,
-                    Inquilino = a.Inquilino != null ? new InquilinoResumoResponse
+                    Inquilino = a.Inquilino != null ? new InquilinoResponse
                     {
                         Id = a.Inquilino.Id,
                         Nome = a.Inquilino.Nome
                     }
                     : null,
-                    Imovel = a.Imovel != null ? new ImovelResumoResponse
+                    Imovel = a.Imovel != null ? new ImovelResponse
                     {
                         Id = a.Imovel.Id,
                         Nome = a.Imovel.Nome

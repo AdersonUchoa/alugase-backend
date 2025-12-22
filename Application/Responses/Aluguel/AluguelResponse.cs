@@ -15,7 +15,7 @@ namespace Application.Responses.Aluguel
         public int InquilinoId { get; set; }
         public int ImovelId { get; set; }
 
-        public InquilinoResumoResponse? Inquilino { get; set; }
-        public ImovelResumoResponse? Imovel { get; set; }
+        public InquilinoResponse? Inquilino { get; set; }
+        public ImovelResponse? Imovel { get; set; }
     }
 }
