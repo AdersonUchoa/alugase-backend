@@ -19,5 +19,6 @@ namespace Domain.Interfaces.Repositories
         Task<List<Imovel>> GetImoveisComAlugueisAtivosAsync();
         Task<List<Imovel>> GetImoveisSemAlugueisAsync();
         Task<Imovel?> GetImovelByAluguelIdAsync(int aluguelId, bool includeInactive = false);
+        Task<bool> IsDisponivelAsync(int imovelId, DateOnly data);
     }
 }

@@ -19,5 +19,6 @@ namespace Application.Interfaces
         Task<ApiResponse<PaginatedResult<ImovelResponse>>> GetImoveisSemAlugueisAsync(int page, int limit);
         Task<ApiResponse<ImovelDashboardResponse>> GetDashboardCountsAsync();
         Task<ApiResponse<ImovelResponse>> GetImovelByAluguelIdAsync(int aluguelId, bool includeInactive = false);
+        Task<ApiResponse<DisponibilidadeImovelResponse>> CheckDisponibilidadeAsync(int imovelId, CheckDisponibilidadeImovelRequest request);
     }
 }

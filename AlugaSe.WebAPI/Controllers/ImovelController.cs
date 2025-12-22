@@ -146,5 +146,20 @@ namespace AlugaSe.WebAPI.Controllers
             var response = await _imovelService.DeleteAsync(id);
             return StatusCode((int)response.StatusCode, response);
         }
+
+        /// <summary>
+        /// Verifica a disponibilidade de um imóvel em uma data específica
+        /// </summary>
+        [HttpPost("{id:int}/verificar-disponibilidade")]
+        public async Task<IActionResult> CheckDisponibilidadeAsync(int id, [FromBody] CheckDisponibilidadeImovelRequest request)
+        {
+            if (request.Data < DateOnly.FromDateTime(DateTime.Today))
+            {
+                return Failed("Não é possível verificar disponibilidade para datas passadas.");
+            }
+
+            var response = await _imovelService.CheckDisponibilidadeAsync(id, request);
+            return StatusCode((int)response.StatusCode, response);
+        }
     }
 }

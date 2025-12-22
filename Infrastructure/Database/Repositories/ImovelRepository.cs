@@ -159,5 +159,24 @@ namespace Infrastructure.Database.Repositories
             }
             return await query.AnyAsync();
         }
+
+        public async Task<bool> IsDisponivelAsync(int imovelId, DateOnly data)
+        {
+            var imovel = await _imoveis
+                .AsNoTracking()
+                .Include(i => i.Aluguels)
+                .FirstOrDefaultAsync(i => i.Id == imovelId && i.IsAtivo == true);
+
+            if (imovel == null)
+                return false;
+
+            var possuiAluguelNaData = imovel.Aluguels.Any(a =>
+                a.IsAtivo == true &&
+                (a.Status != AluguelStatusesEnum.Finalizado && a.Status != AluguelStatusesEnum.Cancelado) &&
+                a.DataInicio <= data &&
+                a.DataFim >= data);
+
+            return !possuiAluguelNaData;
+        }
     }
 }

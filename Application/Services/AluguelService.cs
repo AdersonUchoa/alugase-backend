@@ -34,6 +34,11 @@ namespace Application.Services
                 aluguel.CreatedAt = DateTime.Now;
                 aluguel.IsAtivo = true;
 
+                if (request.DataFim > DateOnly.FromDateTime(DateTime.Today) && request.Status == AluguelStatusesEnum.Finalizado)
+                {
+                    return new ApiResponse<AluguelResponse>(false, HttpStatusCode.BadRequest, null, "Não pode cadastrar um aluguel para depois de hoje já finalizado.", null, null);
+                }
+
                 var created = await _aluguelRepository.AddAsync(aluguel);
                 var response = _mapper.Map<AluguelResponse>(created);
 
@@ -93,6 +98,11 @@ namespace Application.Services
                 if (novaDataFim < novaDataInicio)
                 {
                     return new ApiResponse<AluguelResponse>(false, HttpStatusCode.BadRequest, null, "A data de saída não pode ser anterior à data de início.", null, null);
+                }
+
+                if(novaDataFim > DateOnly.FromDateTime(DateTime.Today) && request.Status == AluguelStatusesEnum.Finalizado)
+                {
+                    return new ApiResponse<AluguelResponse>(false, HttpStatusCode.BadRequest, null, "Um aluguel não pode ser finalizado se ainda não passou a data de saída.", null, null);
                 }
 
                 _mapper.Map(request, aluguel);

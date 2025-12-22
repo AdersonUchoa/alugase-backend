@@ -540,5 +540,86 @@ namespace Application.Services
                 );
             }
         }
+
+        public async Task<ApiResponse<DisponibilidadeImovelResponse>> CheckDisponibilidadeAsync(int imovelId, CheckDisponibilidadeImovelRequest request)
+        {
+            try
+            {
+                var imovel = await _imovelRepository.GetByIdAsync(imovelId);
+
+                if (imovel == null)
+                {
+                    return new ApiResponse<DisponibilidadeImovelResponse>(false, HttpStatusCode.NotFound, null, "Imóvel não encontrado.", null, null);
+                }
+
+                if (imovel.IsAtivo == false)
+                {
+                    return new ApiResponse<DisponibilidadeImovelResponse>(false, HttpStatusCode.BadRequest, null, "Não é possível verificar disponibilidade de um imóvel inativo.", null, null);
+                }
+
+                var isDisponivel = await _imovelRepository.IsDisponivelAsync(imovelId, request.Data);
+
+                var response = new DisponibilidadeImovelResponse
+                {
+                    ImovelId = imovelId,
+                    NomeImovel = imovel.Nome,
+                    DataConsultada = request.Data,
+                    EstaDisponivel = isDisponivel
+                };
+
+                if (isDisponivel)
+                {
+                    response.Mensagem = $"O imóvel '{imovel.Nome}' está disponível para a data {request.Data:dd/MM/yyyy}.";
+                }
+                else
+                {
+                    // Busca informações do aluguel conflitante
+                    var aluguelConflitante = imovel.Aluguels?
+                        .FirstOrDefault(a =>
+                            a.IsAtivo == true &&
+                            a.Status == AluguelStatusesEnum.EmAndamento &&
+                            a.DataInicio <= request.Data &&
+                            a.DataFim >= request.Data);
+
+                    if (aluguelConflitante != null)
+                    {
+                        response.AluguelConflitante = new AluguelConflitanteInfo
+                        {
+                            AluguelId = aluguelConflitante.Id,
+                            DataInicio = aluguelConflitante.DataInicio,
+                            DataFim = aluguelConflitante.DataFim,
+                            NomeInquilino = aluguelConflitante.Inquilino?.Nome
+                        };
+
+                        response.Mensagem = $"O imóvel '{imovel.Nome}' NÃO está disponível para a data {request.Data:dd/MM/yyyy}. " +
+                            $"Existe um aluguel ativo de {aluguelConflitante.DataInicio:dd/MM/yyyy} até {aluguelConflitante.DataFim:dd/MM/yyyy}.";
+                    }
+                    else
+                    {
+                        response.Mensagem = $"O imóvel '{imovel.Nome}' NÃO está disponível para a data {request.Data:dd/MM/yyyy}.";
+                    }
+                }
+
+                return new ApiResponse<DisponibilidadeImovelResponse>(
+                    true,
+                    HttpStatusCode.OK,
+                    response,
+                    "Verificação de disponibilidade realizada com sucesso.",
+                    null,
+                    null
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<DisponibilidadeImovelResponse>(
+                    false,
+                    HttpStatusCode.InternalServerError,
+                    null,
+                    "Erro ao verificar disponibilidade do imóvel.",
+                    null,
+                    ex.Message
+                );
+            }
+        }
     }
 }
