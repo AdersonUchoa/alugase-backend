@@ -7,7 +7,6 @@ using Application.Responses.Administrador;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.AspNetCore.Http;
 using System.Net;
 
 namespace Application.Services
