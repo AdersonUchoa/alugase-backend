@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Enums;
+using Domain.Filters;
 using Domain.Interfaces.Repositories;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace Infrastructure.Database.Repositories
             return true;
         }
 
-        public IQueryable<Aluguel> Get(bool includeInactive = false, bool includeImoveis = false, bool includeInquilinos = false, string? search = null)
+        public IQueryable<Aluguel> Get(AluguelFilterRequest request, bool includeInactive = false, bool includeImoveis = false, bool includeInquilinos = false, string? search = null)
         {
             var query = _alugueis.AsNoTracking();
 
@@ -68,9 +69,31 @@ namespace Infrastructure.Database.Repositories
 
                 query = query.Where(a =>
                     (a.Inquilino != null && a.Inquilino.Nome.ToLower().Contains(searchLower)) ||
-                    (a.Imovel != null && a.Imovel.Nome != null && a.Imovel.Nome.ToLower().Contains(searchLower)) //TODO: Lembrar de adicionar valor nesse search
+                    (a.Imovel != null && a.Imovel.Nome != null && a.Imovel.Nome.ToLower().Contains(searchLower))
                 );
             }
+
+            if (request.PeriodoInicio.HasValue)
+            {
+                query = query.Where(a => a.DataFim >= request.PeriodoInicio.Value);
+            }
+
+            if (request.PeriodoFim.HasValue)
+            {
+                query = query.Where(a => a.DataInicio <= request.PeriodoFim.Value);
+            }
+
+            if (request.ValorMin.HasValue)
+                query = query.Where(a => a.Valor >= request.ValorMin.Value);
+
+            if (request.ValorMax.HasValue)
+                query = query.Where(a => a.Valor <= request.ValorMax.Value);
+
+            if (request.Status != null && request.Status.Any())
+                query = query.Where(a => request.Status.Contains(a.Status));
+
+            if (request.MetodosPagamento != null && request.MetodosPagamento.Any())
+                query = query.Where(a => request.MetodosPagamento.Contains(a.MetodoDePagamento));
 
             return query.OrderByDescending(a => a.CreatedAt);
         }

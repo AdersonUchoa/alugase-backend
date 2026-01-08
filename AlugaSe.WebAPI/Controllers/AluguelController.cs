@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Requests.Aluguel;
+using Domain.Enums;
+using Domain.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,14 +38,30 @@ namespace AlugaSe.WebAPI.Controllers
             bool includeInactive = false,
             bool includeImoveis = false,
             bool includeInquilinos = false,
-            string? search = null)
+            string? search = null,
+            [FromQuery] DateOnly? periodoInicio = null,
+            [FromQuery] DateOnly? periodoFim = null,
+            [FromQuery] decimal? valorMin = null,
+            [FromQuery] decimal? valorMax = null,
+            [FromQuery] List<AluguelStatusesEnum>? status = null,
+            [FromQuery] List<MetodoPagamentoEnum>? metodosPagamento = null)
         {
             if (page <= 0 || limit <= 0)
             {
                 return Failed("Parâmetros de paginação inválidos. Page e Limit devem ser maiores que 0.");
             }
 
-            var response = await _aluguelService.GetAsync(page, limit, includeInactive, includeImoveis, includeInquilinos, search);
+            var request = new AluguelFilterRequest
+            {
+                PeriodoInicio = periodoInicio,
+                PeriodoFim = periodoFim,
+                ValorMin = valorMin,
+                ValorMax = valorMax,
+                Status = status,
+                MetodosPagamento = metodosPagamento
+            };
+
+            var response = await _aluguelService.GetAsync(page, limit, request, includeInactive, includeImoveis, includeInquilinos, search);
             return StatusCode((int)response.StatusCode, response);
         }
 

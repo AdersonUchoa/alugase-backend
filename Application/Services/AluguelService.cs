@@ -2,7 +2,6 @@
 using Application.Pagination;
 using Application.Requests.Aluguel;
 using Application.Responses;
-using Application.Responses.Administrador;
 using Application.Responses.Aluguel;
 using Application.Responses.Imovel;
 using Application.Responses.Inquilino;
@@ -10,6 +9,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Extensions;
+using Domain.Filters;
 using Domain.Interfaces.Repositories;
 using System.Net;
 
@@ -145,7 +145,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<ApiResponse<PaginatedResult<AluguelResponse>>> GetAsync(int page, int limit, bool includeInactive = false, bool includeImoveis = true, bool includeInquilinos = true, string? search = null)
+        public async Task<ApiResponse<PaginatedResult<AluguelResponse>>> GetAsync(int page, int limit, AluguelFilterRequest request, bool includeInactive = false, bool includeImoveis = true, bool includeInquilinos = true, string? search = null)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace Application.Services
                     search = search.Trim();
                 }
 
-                var query = _aluguelRepository.Get(includeInactive, includeImoveis, includeInquilinos, search);
+                var query = _aluguelRepository.Get(request, includeInactive, includeImoveis, includeInquilinos, search);
 
                 var paginatedAlugueis = await PaginatedResult<Aluguel>.CreateAsync(query, page, limit);
 
