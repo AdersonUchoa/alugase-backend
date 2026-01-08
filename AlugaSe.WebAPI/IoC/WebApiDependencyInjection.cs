@@ -103,7 +103,8 @@ namespace AlugaSe.WebAPI.IoC
                     builder.WithOrigins(
                                "http://localhost:5173",  // Frontend
                                "http://localhost:5174",  // Caso a porta mude
-                               "http://localhost:4173"   // Vite preview
+                               "http://localhost:4173",   // Vite preview
+                               "https://alugase-frontend-vercel.vercel.app" //Front em producao
                            )
                            .AllowAnyMethod()
                            .AllowAnyHeader()
